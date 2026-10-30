@@ -9,6 +9,7 @@
   var RISORSA=tag.getAttribute('data-risorsa')||'risorsa';
   var ENDPOINT=tag.getAttribute('data-endpoint')||'';
   var BOTTONE=tag.getAttribute('data-bottone')||'Apri la guida';
+  var LOGO=tag.getAttribute('data-logo')||'assets/logo/logo.webp';
   var PRIVACY='https://www.iubenda.com/privacy-policy/15204920';
   var CHIAVE=RISORSA+'-tiktok-mail-ok';
   if(!ENDPOINT)return;
@@ -18,27 +19,24 @@
   if(fonte!=='tiktok')return;
   try{if(localStorage.getItem(CHIAVE)==='1')return}catch(e){}
 
-  function rgba(hex,a){
-    var m=/^#([0-9a-f]{6})$/i.exec((hex||'').trim());
-    if(!m)return 'rgba(205,36,113,'+a+')';
-    var n=parseInt(m[1],16);
-    return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')';
-  }
-  var accento='#CD2471';
-  try{var v=getComputedStyle(document.documentElement).getPropertyValue('--fucsia').trim();if(/^#[0-9a-f]{6}$/i.test(v))accento=v}catch(e){}
-  var ombra=rgba(accento,.38);
+  /* Colori del brand Unlike, uguali su tutte le risorse (NON quelli della risorsa: Motion ha un indigo suo) */
+  var accento='#CD2471',blu='#227CC0';
+  var ombra='rgba(34,124,192,.38)';
 
   var css=document.createElement('style');
   css.textContent=
     '#accesso{position:fixed;inset:0;z-index:99999;background:#F3F2EE;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto;font-family:"Open Sauce Sans",system-ui,sans-serif;color:#3B3638}'+
     '#accesso .ac-box{width:100%;max-width:480px;background:#fff;border:2px solid #3B3638;border-radius:22px;padding:34px 28px;display:block;grid-template-columns:none;box-shadow:6px 8px 0 '+ombra+'}'+
     '#accesso .ac-bollino{display:inline-block;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:'+accento+';margin-bottom:12px}'+
+    '#accesso .ac-logo{display:block;width:210px;max-width:72%;height:auto;margin:0 0 22px}'+
     '#accesso h2{font-family:"Open Sauce Sans",system-ui,sans-serif;font-weight:900;font-size:30px;line-height:1.08;letter-spacing:-.045em;margin:0 0 12px;color:#3B3638}'+
+    '#accesso h2 em{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:700;letter-spacing:-.03em;color:'+accento+'}'+
+    '#accesso input:focus{outline:none;border-color:'+accento+'}'+
     '#accesso p{font-size:16px;line-height:1.5;margin:0 0 14px;color:#5A5456}'+
     '#accesso input[type=text],#accesso input[type=email]{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:15px 18px;border:2px solid #3B3638;border-radius:14px;margin:6px 0 14px;background:#fff;color:#3B3638}'+
     '#accesso label.ac-spunta{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;color:#665E61;margin-bottom:18px;cursor:pointer}'+
     '#accesso label.ac-spunta input{margin-top:3px;width:18px;height:18px;flex:none;accent-color:'+accento+'}'+
-    '#accesso a{color:'+accento+'}'+
+    '#accesso a{color:'+blu+'}'+
     '#accesso button{width:100%;font:inherit;font-weight:800;font-size:18px;border:0;border-radius:100px;padding:17px 24px;background:'+accento+';color:#fff;cursor:pointer;box-shadow:4px 5px 0 '+ombra+'}'+
     '#accesso button[disabled]{opacity:.6;cursor:wait}'+
     '#accesso .ac-errore{color:#B3261E;font-size:14px;min-height:18px;margin:0 0 10px}'+
@@ -53,8 +51,9 @@
   box.setAttribute('aria-labelledby','accesso-titolo');
   box.innerHTML=
     '<form class="ac-box" novalidate>'+
+      '<img class="ac-logo" src="'+LOGO+'" alt="Unlike Academy" width="768" height="158">'+
       '<span class="ac-bollino">Gratis</span>'+
-      '<h2 id="accesso-titolo">Lascia la tua email e si apre la guida</h2>'+
+      '<h2 id="accesso-titolo">Lascia la tua email e <em>si apre la guida</em></h2>'+
       '<p>Te la mandiamo anche per email, insieme all\'invito al Club gratuito di Unlike Academy</p>'+
       '<input type="text" name="nome" placeholder="Il tuo nome" autocomplete="given-name" required aria-label="Il tuo nome">'+
       '<input type="email" name="email" placeholder="La tua email" autocomplete="email" required aria-label="La tua email">'+
